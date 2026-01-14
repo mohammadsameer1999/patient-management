@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "patients")
+@Table(name = "patient")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @NotNull
     private String name;
@@ -35,12 +35,12 @@ public class Patient {
     @NotNull
     private LocalDate dateOfBirth;
     @NotNull
-    private LocalDate registerDate;
+    private LocalDate registeredDate;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+//    @CreationTimestamp
+//    private LocalDateTime createdAt;
+//    @UpdateTimestamp
+//    private LocalDateTime updatedAt;
 
 
 
