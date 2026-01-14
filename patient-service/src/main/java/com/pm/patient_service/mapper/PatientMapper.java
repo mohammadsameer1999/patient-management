@@ -11,7 +11,7 @@ import java.util.List;
 public class PatientMapper {
     public static PatientResponseDto toDto(Patient patient) {
         PatientResponseDto patientResponseDto = new PatientResponseDto();
-        patientResponseDto.setId(patient.getId().toString());
+        patientResponseDto.setId(patient.getId());
         patientResponseDto.setName(patient.getName());
         patientResponseDto.setEmail(patient.getEmail());
         patientResponseDto.setAddress(patient.getAddress());

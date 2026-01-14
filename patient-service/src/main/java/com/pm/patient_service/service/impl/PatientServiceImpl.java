@@ -27,7 +27,7 @@ public class PatientServiceImpl implements PatientService {
         System.out.println("get All Patient us Here-----<><><><> " + patients);
         return patients.stream().map(PatientMapper::toDto).toList();
     }
-
+/** Create Patient ***/
     @Override
     public PatientResponseDto createPatient(PatientRequestDto patientRequestDto) {
         if (patientRepository.existsByEmail(patientRequestDto.getEmail())) {
@@ -45,7 +45,7 @@ public class PatientServiceImpl implements PatientService {
         Patient patient = patientRepository.findById(id)
                 .orElseThrow(() ->
                         new PatientNotFoundException("Patient not found with ID: "+ id));
-        if (patientRepository.existsByEmail(patientRequestDto.getEmail())) {
+        if (patientRepository.existsByEmailAndIdNot(patientRequestDto.getEmail(),id)) {
             throw new EmailAlreadyExistsException("A patient with this email "
                     + "already exists " + patientRequestDto.getEmail());
         }
@@ -58,5 +58,10 @@ public class PatientServiceImpl implements PatientService {
         System.out.println("Update PAtient---<><><><> " + updatePatient);
         return PatientMapper.toDto(updatePatient);
 
+    }
+    /*** Delete PPatient **/
+    @Override
+    public void deletePatient(Long id) {
+        patientRepository.deleteById(id);
     }
 }
