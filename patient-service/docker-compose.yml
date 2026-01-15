@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  patient-db:
+    image: postgres:15-alpine
+    container_name: patient-postgres
+    environment:
+      POSTGRES_DB: patient_db
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - patient_db_data:/var/lib/postgresql/data
+    networks:
+      - patient-network
+
+  patient-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: patient-service
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://patient-db:5432/patient_db
+      SPRING_DATASOURCE_USERNAME: admin_user
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+    depends_on:
+      - patient-db
+    networks:
+      - patient-network
+
+volumes:
+  patient_db_data:
+
+networks:
+  patient-network:
+    driver: bridge
